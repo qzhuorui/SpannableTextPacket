@@ -2,6 +2,7 @@ package com.choryan.spannabletextpacket.util;
 
 import android.os.Environment;
 
+import com.choryan.spannabletextpacket.base.BaseApplication;
 import com.google.gson.Gson;
 import com.lltvcn.freefont.core.data.DrawData;
 
@@ -24,7 +25,6 @@ import drawn.lltvcn.com.textdemo.MainApplication;
 
 public class FileUtil {
     private static String ROOT_PATH = "SpnnableTestPacket";
-    private static String FONT_PATH = "fonts";
     private static String IMG_PATH = "imgs";
     private static String DATA_PATH = "datas";
 
@@ -66,7 +66,7 @@ public class FileUtil {
 
         } else {
 
-            File dataDir = MainApplication.getInstance().getFilesDir();
+            File dataDir = BaseApplication.instance.getFilesDir();
             if (dataDir != null) {
                 path = dataDir + File.separator
                         + name
@@ -83,8 +83,6 @@ public class FileUtil {
                         + name
                         + File.separator;
             }
-
-
         }
 
         File file = new File(path);
@@ -105,9 +103,6 @@ public class FileUtil {
             }
 
         }
-//		if(!hasMedia)
-//		createNoMediaFile(path);
-
         return path;
     }
 
@@ -210,7 +205,6 @@ public class FileUtil {
         } catch (IOException ioe) {
         }
     }
-
 
     private static void doCopyFile(File srcFile, File destFile,
                                    boolean preserveFileDate) throws IOException {
@@ -344,38 +338,6 @@ public class FileUtil {
             }
         }
     }
-
-
-    /**
-     * 获取单个文件的MD5值！
-     *
-     * @param file
-     * @return
-     */
-
-    public static String getFileMD5(File file) {
-        if (!file.isFile()) {
-            return null;
-        }
-        MessageDigest digest = null;
-        FileInputStream in = null;
-        byte buffer[] = new byte[1024];
-        int len;
-        try {
-            digest = MessageDigest.getInstance("MD5");
-            in = new FileInputStream(file);
-            while ((len = in.read(buffer, 0, 1024)) != -1) {
-                digest.update(buffer, 0, len);
-            }
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        BigInteger bigInt = new BigInteger(1, digest.digest());
-        return bigInt.toString(16);
-    }
-
 
     public static DrawData getDrawData(String name) {
         String dir = getDataDirByName(name);
